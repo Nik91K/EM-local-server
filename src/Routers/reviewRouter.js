@@ -1,16 +1,12 @@
 import Router from 'express';
-const ProductReviewRouter = new Router();
+import ReviewControllers from '../Controllers/review_controllers.js'
 
-ProductReviewRouter.post('/comment'); //C
-ProductReviewRouter.get('comments', (req, res) => {
-  res.send('Повернулись всі')
-  }); //R
-ProductReviewRouter.get('/comment/:id', (req, res) => {
-  res.send('Повернувся комент з id: ' + req.params.id)
-  }); //R
-//router.put(''); //U
-ProductReviewRouter.delete('/comment/:id', (req, res) => {
-  res.send('Видалили комент з id: ' + req.params.id)
-  }); //D  
+const RewiewRouter = new Router();
+
+RewiewRouter.post('/comment', ReviewControllers.createReviews); //C
+RewiewRouter.get('comments', ReviewControllers.getReviews); //R
+RewiewRouter.get('/comment/:id', ReviewControllers.getReview); //R
+RewiewRouter.put('/post/:id', ReviewControllers.updateReview);  //U
+RewiewRouter.delete('/comment/:id', ReviewControllers.deleteReview); //D  
 
 export default ProductReviewRouter;

@@ -11,6 +11,7 @@ const ProductReviewSchema = new mongoose.Schema (
     },
     name: {
       type: String,
+      default: uuid,
       required: true,
     },
     comment: {

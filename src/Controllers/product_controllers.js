@@ -1,53 +1,64 @@
-const products = require('../data.js')
+import product from '../Models/product.js'
+import ProductService from '../Services/ProductService.js'
 
-const getProducts = ((req, res) => {
-    res.json(products)
-})
+class ProductControllers{   
+    async getProduct (req, res){   
+        try {
+            if(!req.params.id){
+                throw new Error('ID empty! ')
+            }
+            const product = await product.findById(req.params.id)
+            return res.json(product)
+        } 
+        catch (error){
+            res.status(500).json(e)
+        }
+        // console.log(req.params.id);
+        // console.log(req.query)
+    };
 
-const getProduct = ((req, res) => {
-    const id = Number(req.params.productID)
-    const product = products.find(product => product.id === id)
+    async getProducts (req, res){
+       try {
+            return res.json(ProductService.getALL())
+       } 
+       catch (error){
+           res.status(500).json(e)
+       }
+   };
 
-        if (!product) {
-        return res.status(404).send('Product not found')
+    async createProducts (req, res){
+        try{
+            return res.status(201).json(await product.create(req.body))
+        } catch(e){
+            res.status(500).json(e)
+        }
+    };
+    
+    async updateProduct (req, res) {
+        try {
+            return res.json(ProductService.ubdate(req.params.id, req.body))
+        } 
+        catch (error){
+            res.status(500).json(e)
+        }
+    };
+
+    async deleteProduct (req, res) {
+        try {
+            return res.json(ProductService.delete(req.params.id))
+        } 
+        catch (error){
+            res.status(500).json(e)
+        }
     }
-    res.json(product)
-})
-
-const createProduct = ((req, res) => {
-    const newProduct = {
-        id: products.length + 1,
-        name: req.body.name,
-        price: req.body.price
-    }
-    products.push(newProduct)
-    res.status(201).json(newProduct)
-})
-
-const updateProduct = ((req, res) => {
-    const id = Number(req.params.productID)
-    const index = products.findIndex(product => product.id === id)
-    const updatedProduct = {
-        id: products[index].id,
-        name: req.body.name,
-        price: req.body.price
-    }
-
-    products[index] = updatedProduct
-    res.status(200).json('Product updated')
-})
-
-const deleteProduct = ((req, res) => {
-    const id = Number(req.params.productID)
-    const index = products.findIndex(product => product.id === id)
-    products.splice(index,1)
-    res.status(200).json('Product deleted')
-})
-
-module.exports = {
-    getProducts,
-    getProduct,
-    createProduct,
-    updateProduct,
-    deleteProduct
 }
+
+export default new ProductController();
+
+// module.exports = {
+//     getProducts,
+//     getProduct,
+//     createProduct,
+//     updateProduct,
+//     deleteProduct
+// }
