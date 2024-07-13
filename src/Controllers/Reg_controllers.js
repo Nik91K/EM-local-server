@@ -4,12 +4,12 @@ import Review from '../Models/product_review.js'
 import { validationResult } from 'express-validator'
 import bcrypt from 'bacryptjs'
 
-class AuthController{
+class RegController{
   async registration(req, res)
   {
-    const errors = validationResult(req);
+    const errors = registrationResult(req);
 
-    if(!errors.isEmpty()){ throw new Error('Помилка валідації!');
+    if(!errors.isEmpty()){ throw new Error('Помилка реєстрації!');
     }
 
     const {name, email, password} = req.body;
@@ -35,4 +35,4 @@ class AuthController{
   }
 }
 
-export default new AuthController
+export default new RegController

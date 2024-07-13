@@ -14,12 +14,25 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       validation: "/\S+@\S+\.+/g",
     },
     password: {
       type: String,
       required: true 
     },
+    role: [
+      {
+        type: String,
+        ref:  'Role',
+      },
+    ],
+    posts: [
+      {
+        type: String,
+        ref: 'Post',
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now
